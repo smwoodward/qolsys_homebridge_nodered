@@ -1,0 +1,2097 @@
+[
+  {
+    "id": "ac9ba07d.adfa7",
+    "type": "tab",
+    "label": "Monitor QolSys Panel for Homebridge",
+    "disabled": false,
+    "info": ""
+  },
+  {
+    "id": "848240ca.36473",
+    "type": "debug",
+    "z": "ac9ba07d.adfa7",
+    "name": "Payload messages",
+    "active": false,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 1070,
+    "y": 200,
+    "wires": [
+      
+    ]
+  },
+  {
+    "id": "19c94f7b.bbde31",
+    "type": "json",
+    "z": "ac9ba07d.adfa7",
+    "name": "convert update to json",
+    "property": "payload",
+    "action": "",
+    "pretty": true,
+    "x": 760,
+    "y": 380,
+    "wires": [
+      [
+        "848240ca.36473",
+        "6426045f.fdb35c"
+      ]
+    ]
+  },
+  {
+    "id": "3ae6ab56.d34d24",
+    "type": "inject",
+    "z": "ac9ba07d.adfa7",
+    "name": "Request Summary",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": "5.",
+    "topic": "",
+    "payload": "{\"nonce\":\"\",\"action\":\"INFO\",\"info_type\":\"SUMMARY\",\"version\":0,\"source\":\"C4\",\"token\":\"TOKEN\"}",
+    "payloadType": "json",
+    "x": 150,
+    "y": 400,
+    "wires": [
+      [
+        "cb370501.d8bad8"
+      ]
+    ]
+  },
+  {
+    "id": "cb370501.d8bad8",
+    "type": "daemon",
+    "z": "ac9ba07d.adfa7",
+    "name": "",
+    "command": "openssl",
+    "args": "s_client -host xxx.xxx.xxx.xxx -port 12345",
+    "autorun": true,
+    "cr": false,
+    "redo": true,
+    "op": "lines",
+    "closer": "SIGTERM",
+    "x": 380,
+    "y": 400,
+    "wires": [
+      [
+        "7f7f54eb.e3331c",
+        "77ddc7b7.c4e8d8",
+        "461d21a7.37915"
+      ],
+      [
+        "dff33c25.88409"
+      ],
+      [
+        "9254ef85.80496"
+      ]
+    ]
+  },
+  {
+    "id": "7f7f54eb.e3331c",
+    "type": "switch",
+    "z": "ac9ba07d.adfa7",
+    "name": "Filter Key information",
+    "property": "payload",
+    "propertyType": "msg",
+    "rules": [
+      {
+        "t": "cont",
+        "v": "ACK",
+        "vt": "str"
+      },
+      {
+        "t": "cont",
+        "v": "{",
+        "vt": "str"
+      },
+      {
+        "t": "else"
+      }
+    ],
+    "checkall": "true",
+    "repair": false,
+    "outputs": 3,
+    "x": 720,
+    "y": 320,
+    "wires": [
+      [
+        "26e1b7f5.dcb3b8"
+      ],
+      [
+        "19c94f7b.bbde31"
+      ],
+      [
+        "97613aa1.841e28"
+      ]
+    ]
+  },
+  {
+    "id": "dff33c25.88409",
+    "type": "debug",
+    "z": "ac9ba07d.adfa7",
+    "name": "Just outputs the curl progress, not the actual output",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 800,
+    "y": 80,
+    "wires": [
+      
+    ]
+  },
+  {
+    "id": "9254ef85.80496",
+    "type": "debug",
+    "z": "ac9ba07d.adfa7",
+    "name": "return (exit) codes",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 690,
+    "y": 160,
+    "wires": [
+      
+    ]
+  },
+  {
+    "id": "97613aa1.841e28",
+    "type": "debug",
+    "z": "ac9ba07d.adfa7",
+    "name": "Key information",
+    "active": false,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 1060,
+    "y": 160,
+    "wires": [
+      
+    ]
+  },
+  {
+    "id": "26e1b7f5.dcb3b8",
+    "type": "debug",
+    "z": "ac9ba07d.adfa7",
+    "name": "ACK Message",
+    "active": false,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 1060,
+    "y": 120,
+    "wires": [
+      
+    ]
+  },
+  {
+    "id": "d5601669.bfccc8",
+    "type": "inject",
+    "z": "ac9ba07d.adfa7",
+    "name": "Start Process",
+    "props": [
+      {
+        "p": "start",
+        "v": "",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "x": 170,
+    "y": 360,
+    "wires": [
+      [
+        "cb370501.d8bad8"
+      ]
+    ]
+  },
+  {
+    "id": "b915bfde.2bf43",
+    "type": "inject",
+    "z": "ac9ba07d.adfa7",
+    "name": "Kill Process",
+    "props": [
+      {
+        "p": "kill",
+        "v": "",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "x": 170,
+    "y": 320,
+    "wires": [
+      [
+        "cb370501.d8bad8"
+      ]
+    ]
+  },
+  {
+    "id": "77ddc7b7.c4e8d8",
+    "type": "debug",
+    "z": "ac9ba07d.adfa7",
+    "name": "Raw messages",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 680,
+    "y": 120,
+    "wires": [
+      
+    ]
+  },
+  {
+    "id": "6426045f.fdb35c",
+    "type": "function",
+    "z": "ac9ba07d.adfa7",
+    "name": "Filter messages",
+    "func": "zid = msg.payload[\"event\"];\nevent_type=msg.payload[\"zone_event_type\"]\narming_type=msg.payload[\"arming_type\"]\nif (zid == \"ZONE_EVENT\"){\n    switch (event_type) {\n        case \"ZONE_ACTIVE\":\n            return [msg,null,null,null,null,null]\n        case \"ZONE_UPDATE\":\n            return [null,msg,null,null,null,null]\n    }\n}\nif (zid==\"INFO\"){\n    return [null,null,msg,null,null,null]\n}\nif (zid==\"ARMING\"){\n    switch (arming_type){\n        case \"DISARM\":\n            return [null,null,null,msg,null,null]\n        case \"ARM_STAY\":\n            return [null,null,null,null,msg,null]\n        case \"ARM_AWAY\":\n            return [null,null,null,null,null,msg]\n    }\n}",
+    "outputs": 6,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "x": 760,
+    "y": 460,
+    "wires": [
+      [
+        "57ed0f48.398e9",
+        "1d8e61d9.e6c6ee"
+      ],
+      [
+        "d16392c2.a6e96"
+      ],
+      [
+        "cb753f58.83f6e",
+        "98af9b08.bdcb88"
+      ],
+      [
+        "32a9cc3f.3ba114",
+        "d3d43e4a.f80ba"
+      ],
+      [
+        "821f0a4d.4add68",
+        "4b449d99.f6aab4"
+      ],
+      [
+        "385b86d4.ab40ea",
+        "8fa0aa5c.0666d8"
+      ]
+    ]
+  },
+  {
+    "id": "1d8e61d9.e6c6ee",
+    "type": "function",
+    "z": "ac9ba07d.adfa7",
+    "name": "Find Open/Closed Status \\n Doors + Windows ",
+    "func": "zid = msg.payload[\"zone\"][\"zone_id\"];\nzstatus = msg.payload[\"zone\"][\"status\"];\n//entity_id = \"\";\ntmsg = msg.payload;\nif (msg.payload[\"zone\"][\"status\"]==\"Closed\"){\n    tmsg.payload = {\"ContactSensorState\":0}\n}\nif (msg.payload[\"zone\"][\"status\"]==\"Open\"){\n    tmsg.payload = {\"ContactSensorState\":1}\n}\n\n\nswitch (zid) {\n    case 1:\n        return [tmsg,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,tmsg]\n    case 2:\n        return [null,tmsg,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,tmsg]\n    case 3:\n        return [null,null,tmsg,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,tmsg]\n    case 4:\n        return [null,null,null,tmsg,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,tmsg]\n    case 5:\n        return [null,null,null,null,tmsg,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,tmsg]\n    case 6:\n        return [null,null,null,null,null,tmsg,null,null,null,null,null,null,null,null,null,null,null,null,null,null,tmsg]\n    case 7:\n        return [null,null,null,null,null,null,tmsg,null,null,null,null,null,null,null,null,null,null,null,null,null,tmsg]     \n    case 8:\n        return [null,null,null,null,null,null,null,tmsg,null,null,null,null,null,null,null,null,null,null,null,null,tmsg]   \n    case 9:\n        return [null,null,null,null,null,null,null,null,tmsg,null,null,null,null,null,null,null,null,null,null,null,tmsg]\n    case 10:\n        return [null,null,null,null,null,null,null,null,null,tmsg,null,null,null,null,null,null,null,null,null,null,tmsg]\n    case 11:\n        return [null,null,null,null,null,null,null,null,null,null,tmsg,null,null,null,null,null,null,null,null,null,tmsg]\n    case 12:\n        return [null,null,null,null,null,null,null,null,null,null,null,tmsg,null,null,null,null,null,null,null,null,tmsg]\n    case 13:\n        return [null,null,null,null,null,null,null,null,null,null,null,null,tmsg,null,null,null,null,null,null,null,tmsg]\n    case 14:\n        return [null,null,null,null,null,null,null,null,null,null,null,null,null,tmsg,null,null,null,null,null,null,tmsg]\n    case 15:\n        return [null,null,null,null,null,null,null,null,null,null,null,null,null,null,tmsg,null,null,null,null,null,tmsg]     \n    case 16:\n        return [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,tmsg,null,null,null,null,tmsg]\n    case 17:\n        return [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,tmsg,null,null,null,tmsg]\n    case 19:\n        return [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,tmsg,null,null,tmsg]\n    case 20:\n        return [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,tmsg,null,tmsg]\n    case 21:\n        return [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,tmsg,tmsg]\n\n    \n}\n\n\n//node.warn(\"zid: \" + zid + \", status: \" + zstatus + \", entities: \" + entity_ids)",
+    "outputs": 21,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "x": 1490,
+    "y": 160,
+    "wires": [
+      [
+        "e341f598.05b4d8"
+      ],
+      [
+        "ad5cdfbe.959f1"
+      ],
+      [
+        "2cc94822.270548"
+      ],
+      [
+        "44ff9e8d.6e49b"
+      ],
+      [
+        "d0320975.7571e8"
+      ],
+      [
+        "1e65c316.31d7ad"
+      ],
+      [
+        "24d01291.8d8d2e"
+      ],
+      [
+        "99a0c79f.9ecdf8"
+      ],
+      [
+        "9d6597be.3b5898"
+      ],
+      [
+        "e12da33b.57861"
+      ],
+      [
+        "5a8ab029.3a7b5"
+      ],
+      [
+        "ebbad7b6.135628"
+      ],
+      [
+        "a6464e4c.c0166"
+      ],
+      [
+        "384cdae2.97f106"
+      ],
+      [
+        "cd82a050.0765f"
+      ],
+      [
+        "60f368e6.eeced8"
+      ],
+      [
+        "3326051b.d2ffba"
+      ],
+      [
+        "7985536c.2e6f7c"
+      ],
+      [
+        "fd8242f2.85ee3"
+      ],
+      [
+        "2bfe3ffd.aa23a"
+      ],
+      [
+        "47c04459.5471fc"
+      ]
+    ]
+  },
+  {
+    "id": "d16392c2.a6e96",
+    "type": "debug",
+    "z": "ac9ba07d.adfa7",
+    "name": "Zone Update Messages",
+    "active": false,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 1490,
+    "y": 400,
+    "wires": [
+      
+    ]
+  },
+  {
+    "id": "57ed0f48.398e9",
+    "type": "debug",
+    "z": "ac9ba07d.adfa7",
+    "name": "Zone Active Messages",
+    "active": false,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 1480,
+    "y": 360,
+    "wires": [
+      
+    ]
+  },
+  {
+    "id": "cb753f58.83f6e",
+    "type": "debug",
+    "z": "ac9ba07d.adfa7",
+    "name": "Summary Info Messages",
+    "active": false,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 1490,
+    "y": 440,
+    "wires": [
+      
+    ]
+  },
+  {
+    "id": "32a9cc3f.3ba114",
+    "type": "debug",
+    "z": "ac9ba07d.adfa7",
+    "name": "Disarm Messages",
+    "active": false,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 1470,
+    "y": 480,
+    "wires": [
+      
+    ]
+  },
+  {
+    "id": "821f0a4d.4add68",
+    "type": "debug",
+    "z": "ac9ba07d.adfa7",
+    "name": "Arm Stay Messages",
+    "active": false,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 1480,
+    "y": 520,
+    "wires": [
+      
+    ]
+  },
+  {
+    "id": "385b86d4.ab40ea",
+    "type": "debug",
+    "z": "ac9ba07d.adfa7",
+    "name": "Arm Away Messages",
+    "active": false,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 1480,
+    "y": 560,
+    "wires": [
+      
+    ]
+  },
+  {
+    "id": "97b9cb42.b70ef8",
+    "type": "homekit-service",
+    "z": "ac9ba07d.adfa7",
+    "isParent": true,
+    "bridge": "ae25056d.9b8b68",
+    "parentService": "",
+    "name": "Security System",
+    "serviceName": "SecuritySystem",
+    "topic": "",
+    "filter": false,
+    "manufacturer": "NRCHKB",
+    "model": "1.2.0",
+    "serialNo": "Default Serial Number",
+    "firmwareRev": "1.2.0",
+    "hardwareRev": "1.2.0",
+    "softwareRev": "1.2.0",
+    "cameraConfigVideoProcessor": "ffmpeg",
+    "cameraConfigSource": "",
+    "cameraConfigStillImageSource": "",
+    "cameraConfigMaxStreams": 2,
+    "cameraConfigMaxWidth": 1280,
+    "cameraConfigMaxHeight": 720,
+    "cameraConfigMaxFPS": 10,
+    "cameraConfigMaxBitrate": 300,
+    "cameraConfigVideoCodec": "libx264",
+    "cameraConfigAudioCodec": "libfdk_aac",
+    "cameraConfigAudio": false,
+    "cameraConfigPacketSize": 1316,
+    "cameraConfigVerticalFlip": false,
+    "cameraConfigHorizontalFlip": false,
+    "cameraConfigMapVideo": "0:0",
+    "cameraConfigMapAudio": "0:1",
+    "cameraConfigVideoFilter": "scale=1280:720",
+    "cameraConfigAdditionalCommandLine": "-tune zerolatency",
+    "cameraConfigDebug": false,
+    "cameraConfigSnapshotOutput": "disabled",
+    "cameraConfigInterfaceName": "",
+    "characteristicProperties": "{}",
+    "waitForSetupMsg": false,
+    "outputs": 2,
+    "x": 1080,
+    "y": 960,
+    "wires": [
+      [
+        "797297b1.2f6368",
+        "52dee844.3ec878"
+      ],
+      [
+        
+      ]
+    ]
+  },
+  {
+    "id": "c1335e6b.97d52",
+    "type": "AnamicoAlarmStateChanged",
+    "z": "ac9ba07d.adfa7",
+    "name": "AlarmState",
+    "panel": "2ac90055.7f83e8",
+    "format": "1",
+    "sendInitialState": 1,
+    "x": 760,
+    "y": 960,
+    "wires": [
+      [
+        "1a6f347d.68e4ac"
+      ]
+    ]
+  },
+  {
+    "id": "8fa0aa5c.0666d8",
+    "type": "trigger",
+    "z": "ac9ba07d.adfa7",
+    "name": "Arm Away message from Qolsys",
+    "op1": "{\"SecuritySystemTargetState\":1,\"SecuritySystemCurrentState\":1}",
+    "op2": "{\"SecuritySystemTargetState\":1,\"SecuritySystemCurrentState\":1}",
+    "op1type": "json",
+    "op2type": "json",
+    "duration": "1",
+    "extend": false,
+    "overrideDelay": false,
+    "units": "ms",
+    "reset": "",
+    "bytopic": "all",
+    "topic": "topic",
+    "outputs": 2,
+    "x": 1430,
+    "y": 740,
+    "wires": [
+      [
+        "97b9cb42.b70ef8"
+      ],
+      [
+        
+      ]
+    ]
+  },
+  {
+    "id": "d3d43e4a.f80ba",
+    "type": "trigger",
+    "z": "ac9ba07d.adfa7",
+    "name": "Disarm message from Qolsys",
+    "op1": "{\"SecuritySystemTargetState\":3,\"SecuritySystemCurrentState\":3}",
+    "op2": "{\"SecuritySystemTargetState\":3,\"SecuritySystemCurrentState\":3}",
+    "op1type": "json",
+    "op2type": "json",
+    "duration": "1",
+    "extend": false,
+    "overrideDelay": false,
+    "units": "ms",
+    "reset": "",
+    "bytopic": "all",
+    "topic": "topic",
+    "outputs": 2,
+    "x": 1430,
+    "y": 660,
+    "wires": [
+      [
+        "97b9cb42.b70ef8"
+      ],
+      [
+        
+      ]
+    ]
+  },
+  {
+    "id": "4b449d99.f6aab4",
+    "type": "trigger",
+    "z": "ac9ba07d.adfa7",
+    "name": "Arm Stay message from Qolsys",
+    "op1": "{\"SecuritySystemTargetState\":0,\"SecuritySystemCurrentState\":0}",
+    "op2": "{\"SecuritySystemTargetState\":0,\"SecuritySystemCurrentState\":0}",
+    "op1type": "json",
+    "op2type": "json",
+    "duration": "1",
+    "extend": false,
+    "overrideDelay": false,
+    "units": "ms",
+    "reset": "",
+    "bytopic": "all",
+    "topic": "topic",
+    "outputs": 2,
+    "x": 1430,
+    "y": 700,
+    "wires": [
+      [
+        "97b9cb42.b70ef8"
+      ],
+      [
+        
+      ]
+    ]
+  },
+  {
+    "id": "797297b1.2f6368",
+    "type": "AnamicoAlarmChangeState",
+    "z": "ac9ba07d.adfa7",
+    "name": "All states",
+    "panel": "2ac90055.7f83e8",
+    "format": "1",
+    "x": 1340,
+    "y": 960,
+    "wires": [
+      
+    ]
+  },
+  {
+    "id": "e341f598.05b4d8",
+    "type": "homekit-service",
+    "z": "ac9ba07d.adfa7",
+    "isParent": true,
+    "bridge": "ae25056d.9b8b68",
+    "parentService": "97b9cb42.b70ef8",
+    "name": "Front Door",
+    "serviceName": "ContactSensor",
+    "topic": "",
+    "filter": false,
+    "manufacturer": "NRCHKB",
+    "model": "1.2.0",
+    "serialNo": "Default Serial Number",
+    "firmwareRev": "1.2.0",
+    "hardwareRev": "1.2.0",
+    "softwareRev": "1.2.0",
+    "cameraConfigVideoProcessor": "ffmpeg",
+    "cameraConfigSource": "",
+    "cameraConfigStillImageSource": "",
+    "cameraConfigMaxStreams": 2,
+    "cameraConfigMaxWidth": 1280,
+    "cameraConfigMaxHeight": 720,
+    "cameraConfigMaxFPS": 10,
+    "cameraConfigMaxBitrate": 300,
+    "cameraConfigVideoCodec": "libx264",
+    "cameraConfigAudioCodec": "libfdk_aac",
+    "cameraConfigAudio": false,
+    "cameraConfigPacketSize": 1316,
+    "cameraConfigVerticalFlip": false,
+    "cameraConfigHorizontalFlip": false,
+    "cameraConfigMapVideo": "0:0",
+    "cameraConfigMapAudio": "0:1",
+    "cameraConfigVideoFilter": "scale=1280:720",
+    "cameraConfigAdditionalCommandLine": "-tune zerolatency",
+    "cameraConfigDebug": false,
+    "cameraConfigSnapshotOutput": "disabled",
+    "cameraConfigInterfaceName": "",
+    "characteristicProperties": "{}",
+    "waitForSetupMsg": false,
+    "outputs": 2,
+    "x": 1970,
+    "y": 20,
+    "wires": [
+      [
+        
+      ],
+      [
+        
+      ]
+    ]
+  },
+  {
+    "id": "ad5cdfbe.959f1",
+    "type": "homekit-service",
+    "z": "ac9ba07d.adfa7",
+    "isParent": true,
+    "bridge": "ae25056d.9b8b68",
+    "parentService": "97b9cb42.b70ef8",
+    "name": "Back Door",
+    "serviceName": "ContactSensor",
+    "topic": "",
+    "filter": false,
+    "manufacturer": "NRCHKB",
+    "model": "1.2.0",
+    "serialNo": "Default Serial Number",
+    "firmwareRev": "1.2.0",
+    "hardwareRev": "1.2.0",
+    "softwareRev": "1.2.0",
+    "cameraConfigVideoProcessor": "ffmpeg",
+    "cameraConfigSource": "",
+    "cameraConfigStillImageSource": "",
+    "cameraConfigMaxStreams": 2,
+    "cameraConfigMaxWidth": 1280,
+    "cameraConfigMaxHeight": 720,
+    "cameraConfigMaxFPS": 10,
+    "cameraConfigMaxBitrate": 300,
+    "cameraConfigVideoCodec": "libx264",
+    "cameraConfigAudioCodec": "libfdk_aac",
+    "cameraConfigAudio": false,
+    "cameraConfigPacketSize": 1316,
+    "cameraConfigVerticalFlip": false,
+    "cameraConfigHorizontalFlip": false,
+    "cameraConfigMapVideo": "0:0",
+    "cameraConfigMapAudio": "0:1",
+    "cameraConfigVideoFilter": "scale=1280:720",
+    "cameraConfigAdditionalCommandLine": "-tune zerolatency",
+    "cameraConfigDebug": false,
+    "cameraConfigSnapshotOutput": "disabled",
+    "cameraConfigInterfaceName": "",
+    "characteristicProperties": "{}",
+    "waitForSetupMsg": false,
+    "outputs": 2,
+    "x": 1970,
+    "y": 80,
+    "wires": [
+      [
+        
+      ],
+      [
+        
+      ]
+    ]
+  },
+  {
+    "id": "2cc94822.270548",
+    "type": "homekit-service",
+    "z": "ac9ba07d.adfa7",
+    "isParent": true,
+    "bridge": "ae25056d.9b8b68",
+    "parentService": "97b9cb42.b70ef8",
+    "name": "Laundry Door",
+    "serviceName": "ContactSensor",
+    "topic": "",
+    "filter": false,
+    "manufacturer": "NRCHKB",
+    "model": "1.2.0",
+    "serialNo": "Default Serial Number",
+    "firmwareRev": "1.2.0",
+    "hardwareRev": "1.2.0",
+    "softwareRev": "1.2.0",
+    "cameraConfigVideoProcessor": "ffmpeg",
+    "cameraConfigSource": "",
+    "cameraConfigStillImageSource": "",
+    "cameraConfigMaxStreams": 2,
+    "cameraConfigMaxWidth": 1280,
+    "cameraConfigMaxHeight": 720,
+    "cameraConfigMaxFPS": 10,
+    "cameraConfigMaxBitrate": 300,
+    "cameraConfigVideoCodec": "libx264",
+    "cameraConfigAudioCodec": "libfdk_aac",
+    "cameraConfigAudio": false,
+    "cameraConfigPacketSize": 1316,
+    "cameraConfigVerticalFlip": false,
+    "cameraConfigHorizontalFlip": false,
+    "cameraConfigMapVideo": "0:0",
+    "cameraConfigMapAudio": "0:1",
+    "cameraConfigVideoFilter": "scale=1280:720",
+    "cameraConfigAdditionalCommandLine": "-tune zerolatency",
+    "cameraConfigDebug": false,
+    "cameraConfigSnapshotOutput": "disabled",
+    "cameraConfigInterfaceName": "",
+    "characteristicProperties": "{}",
+    "waitForSetupMsg": false,
+    "outputs": 2,
+    "x": 1980,
+    "y": 140,
+    "wires": [
+      [
+        
+      ],
+      [
+        
+      ]
+    ]
+  },
+  {
+    "id": "44ff9e8d.6e49b",
+    "type": "homekit-service",
+    "z": "ac9ba07d.adfa7",
+    "isParent": true,
+    "bridge": "ae25056d.9b8b68",
+    "parentService": "97b9cb42.b70ef8",
+    "name": "Den Door",
+    "serviceName": "ContactSensor",
+    "topic": "",
+    "filter": false,
+    "manufacturer": "NRCHKB",
+    "model": "1.2.0",
+    "serialNo": "Default Serial Number",
+    "firmwareRev": "1.2.0",
+    "hardwareRev": "1.2.0",
+    "softwareRev": "1.2.0",
+    "cameraConfigVideoProcessor": "ffmpeg",
+    "cameraConfigSource": "",
+    "cameraConfigStillImageSource": "",
+    "cameraConfigMaxStreams": 2,
+    "cameraConfigMaxWidth": 1280,
+    "cameraConfigMaxHeight": 720,
+    "cameraConfigMaxFPS": 10,
+    "cameraConfigMaxBitrate": 300,
+    "cameraConfigVideoCodec": "libx264",
+    "cameraConfigAudioCodec": "libfdk_aac",
+    "cameraConfigAudio": false,
+    "cameraConfigPacketSize": 1316,
+    "cameraConfigVerticalFlip": false,
+    "cameraConfigHorizontalFlip": false,
+    "cameraConfigMapVideo": "0:0",
+    "cameraConfigMapAudio": "0:1",
+    "cameraConfigVideoFilter": "scale=1280:720",
+    "cameraConfigAdditionalCommandLine": "-tune zerolatency",
+    "cameraConfigDebug": false,
+    "cameraConfigSnapshotOutput": "disabled",
+    "cameraConfigInterfaceName": "",
+    "characteristicProperties": "{}",
+    "waitForSetupMsg": false,
+    "outputs": 2,
+    "x": 1960,
+    "y": 200,
+    "wires": [
+      [
+        
+      ],
+      [
+        
+      ]
+    ]
+  },
+  {
+    "id": "d0320975.7571e8",
+    "type": "homekit-service",
+    "z": "ac9ba07d.adfa7",
+    "isParent": true,
+    "bridge": "ae25056d.9b8b68",
+    "parentService": "97b9cb42.b70ef8",
+    "name": "Dining Room Window 1",
+    "serviceName": "ContactSensor",
+    "topic": "",
+    "filter": false,
+    "manufacturer": "NRCHKB",
+    "model": "1.2.0",
+    "serialNo": "Default Serial Number",
+    "firmwareRev": "1.2.0",
+    "hardwareRev": "1.2.0",
+    "softwareRev": "1.2.0",
+    "cameraConfigVideoProcessor": "ffmpeg",
+    "cameraConfigSource": "",
+    "cameraConfigStillImageSource": "",
+    "cameraConfigMaxStreams": 2,
+    "cameraConfigMaxWidth": 1280,
+    "cameraConfigMaxHeight": 720,
+    "cameraConfigMaxFPS": 10,
+    "cameraConfigMaxBitrate": 300,
+    "cameraConfigVideoCodec": "libx264",
+    "cameraConfigAudioCodec": "libfdk_aac",
+    "cameraConfigAudio": false,
+    "cameraConfigPacketSize": 1316,
+    "cameraConfigVerticalFlip": false,
+    "cameraConfigHorizontalFlip": false,
+    "cameraConfigMapVideo": "0:0",
+    "cameraConfigMapAudio": "0:1",
+    "cameraConfigVideoFilter": "scale=1280:720",
+    "cameraConfigAdditionalCommandLine": "-tune zerolatency",
+    "cameraConfigDebug": false,
+    "cameraConfigSnapshotOutput": "disabled",
+    "cameraConfigInterfaceName": "",
+    "characteristicProperties": "{}",
+    "waitForSetupMsg": false,
+    "outputs": 2,
+    "x": 2010,
+    "y": 260,
+    "wires": [
+      [
+        
+      ],
+      [
+        
+      ]
+    ]
+  },
+  {
+    "id": "1e65c316.31d7ad",
+    "type": "homekit-service",
+    "z": "ac9ba07d.adfa7",
+    "isParent": true,
+    "bridge": "ae25056d.9b8b68",
+    "parentService": "97b9cb42.b70ef8",
+    "name": "Dining Room Window 2",
+    "serviceName": "ContactSensor",
+    "topic": "",
+    "filter": false,
+    "manufacturer": "NRCHKB",
+    "model": "1.2.0",
+    "serialNo": "Default Serial Number",
+    "firmwareRev": "1.2.0",
+    "hardwareRev": "1.2.0",
+    "softwareRev": "1.2.0",
+    "cameraConfigVideoProcessor": "ffmpeg",
+    "cameraConfigSource": "",
+    "cameraConfigStillImageSource": "",
+    "cameraConfigMaxStreams": 2,
+    "cameraConfigMaxWidth": 1280,
+    "cameraConfigMaxHeight": 720,
+    "cameraConfigMaxFPS": 10,
+    "cameraConfigMaxBitrate": 300,
+    "cameraConfigVideoCodec": "libx264",
+    "cameraConfigAudioCodec": "libfdk_aac",
+    "cameraConfigAudio": false,
+    "cameraConfigPacketSize": 1316,
+    "cameraConfigVerticalFlip": false,
+    "cameraConfigHorizontalFlip": false,
+    "cameraConfigMapVideo": "0:0",
+    "cameraConfigMapAudio": "0:1",
+    "cameraConfigVideoFilter": "scale=1280:720",
+    "cameraConfigAdditionalCommandLine": "-tune zerolatency",
+    "cameraConfigDebug": false,
+    "cameraConfigSnapshotOutput": "disabled",
+    "cameraConfigInterfaceName": "",
+    "characteristicProperties": "{}",
+    "waitForSetupMsg": false,
+    "outputs": 2,
+    "x": 2010,
+    "y": 320,
+    "wires": [
+      [
+        
+      ],
+      [
+        
+      ]
+    ]
+  },
+  {
+    "id": "24d01291.8d8d2e",
+    "type": "homekit-service",
+    "z": "ac9ba07d.adfa7",
+    "isParent": true,
+    "bridge": "ae25056d.9b8b68",
+    "parentService": "97b9cb42.b70ef8",
+    "name": "Den Windows 1",
+    "serviceName": "ContactSensor",
+    "topic": "",
+    "filter": false,
+    "manufacturer": "NRCHKB",
+    "model": "1.2.0",
+    "serialNo": "Default Serial Number",
+    "firmwareRev": "1.2.0",
+    "hardwareRev": "1.2.0",
+    "softwareRev": "1.2.0",
+    "cameraConfigVideoProcessor": "ffmpeg",
+    "cameraConfigSource": "",
+    "cameraConfigStillImageSource": "",
+    "cameraConfigMaxStreams": 2,
+    "cameraConfigMaxWidth": 1280,
+    "cameraConfigMaxHeight": 720,
+    "cameraConfigMaxFPS": 10,
+    "cameraConfigMaxBitrate": 300,
+    "cameraConfigVideoCodec": "libx264",
+    "cameraConfigAudioCodec": "libfdk_aac",
+    "cameraConfigAudio": false,
+    "cameraConfigPacketSize": 1316,
+    "cameraConfigVerticalFlip": false,
+    "cameraConfigHorizontalFlip": false,
+    "cameraConfigMapVideo": "0:0",
+    "cameraConfigMapAudio": "0:1",
+    "cameraConfigVideoFilter": "scale=1280:720",
+    "cameraConfigAdditionalCommandLine": "-tune zerolatency",
+    "cameraConfigDebug": false,
+    "cameraConfigSnapshotOutput": "disabled",
+    "cameraConfigInterfaceName": "",
+    "characteristicProperties": "{}",
+    "waitForSetupMsg": false,
+    "outputs": 2,
+    "x": 1980,
+    "y": 380,
+    "wires": [
+      [
+        
+      ],
+      [
+        
+      ]
+    ]
+  },
+  {
+    "id": "99a0c79f.9ecdf8",
+    "type": "homekit-service",
+    "z": "ac9ba07d.adfa7",
+    "isParent": true,
+    "bridge": "ae25056d.9b8b68",
+    "parentService": "97b9cb42.b70ef8",
+    "name": "Den Window 2",
+    "serviceName": "ContactSensor",
+    "topic": "",
+    "filter": false,
+    "manufacturer": "NRCHKB",
+    "model": "1.2.0",
+    "serialNo": "Default Serial Number",
+    "firmwareRev": "1.2.0",
+    "hardwareRev": "1.2.0",
+    "softwareRev": "1.2.0",
+    "cameraConfigVideoProcessor": "ffmpeg",
+    "cameraConfigSource": "",
+    "cameraConfigStillImageSource": "",
+    "cameraConfigMaxStreams": 2,
+    "cameraConfigMaxWidth": 1280,
+    "cameraConfigMaxHeight": 720,
+    "cameraConfigMaxFPS": 10,
+    "cameraConfigMaxBitrate": 300,
+    "cameraConfigVideoCodec": "libx264",
+    "cameraConfigAudioCodec": "libfdk_aac",
+    "cameraConfigAudio": false,
+    "cameraConfigPacketSize": 1316,
+    "cameraConfigVerticalFlip": false,
+    "cameraConfigHorizontalFlip": false,
+    "cameraConfigMapVideo": "0:0",
+    "cameraConfigMapAudio": "0:1",
+    "cameraConfigVideoFilter": "scale=1280:720",
+    "cameraConfigAdditionalCommandLine": "-tune zerolatency",
+    "cameraConfigDebug": false,
+    "cameraConfigSnapshotOutput": "disabled",
+    "cameraConfigInterfaceName": "",
+    "characteristicProperties": "{}",
+    "waitForSetupMsg": false,
+    "outputs": 2,
+    "x": 1980,
+    "y": 440,
+    "wires": [
+      [
+        
+      ],
+      [
+        
+      ]
+    ]
+  },
+  {
+    "id": "9d6597be.3b5898",
+    "type": "homekit-service",
+    "z": "ac9ba07d.adfa7",
+    "isParent": true,
+    "bridge": "ae25056d.9b8b68",
+    "parentService": "97b9cb42.b70ef8",
+    "name": "Den Window 3",
+    "serviceName": "ContactSensor",
+    "topic": "",
+    "filter": false,
+    "manufacturer": "NRCHKB",
+    "model": "1.2.0",
+    "serialNo": "Default Serial Number",
+    "firmwareRev": "1.2.0",
+    "hardwareRev": "1.2.0",
+    "softwareRev": "1.2.0",
+    "cameraConfigVideoProcessor": "ffmpeg",
+    "cameraConfigSource": "",
+    "cameraConfigStillImageSource": "",
+    "cameraConfigMaxStreams": 2,
+    "cameraConfigMaxWidth": 1280,
+    "cameraConfigMaxHeight": 720,
+    "cameraConfigMaxFPS": 10,
+    "cameraConfigMaxBitrate": 300,
+    "cameraConfigVideoCodec": "libx264",
+    "cameraConfigAudioCodec": "libfdk_aac",
+    "cameraConfigAudio": false,
+    "cameraConfigPacketSize": 1316,
+    "cameraConfigVerticalFlip": false,
+    "cameraConfigHorizontalFlip": false,
+    "cameraConfigMapVideo": "0:0",
+    "cameraConfigMapAudio": "0:1",
+    "cameraConfigVideoFilter": "scale=1280:720",
+    "cameraConfigAdditionalCommandLine": "-tune zerolatency",
+    "cameraConfigDebug": false,
+    "cameraConfigSnapshotOutput": "disabled",
+    "cameraConfigInterfaceName": "",
+    "characteristicProperties": "{}",
+    "waitForSetupMsg": false,
+    "outputs": 2,
+    "x": 1980,
+    "y": 500,
+    "wires": [
+      [
+        
+      ],
+      [
+        
+      ]
+    ]
+  },
+  {
+    "id": "e12da33b.57861",
+    "type": "homekit-service",
+    "z": "ac9ba07d.adfa7",
+    "isParent": true,
+    "bridge": "ae25056d.9b8b68",
+    "parentService": "97b9cb42.b70ef8",
+    "name": "Kitchen Window",
+    "serviceName": "ContactSensor",
+    "topic": "",
+    "filter": false,
+    "manufacturer": "NRCHKB",
+    "model": "1.2.0",
+    "serialNo": "Default Serial Number",
+    "firmwareRev": "1.2.0",
+    "hardwareRev": "1.2.0",
+    "softwareRev": "1.2.0",
+    "cameraConfigVideoProcessor": "ffmpeg",
+    "cameraConfigSource": "",
+    "cameraConfigStillImageSource": "",
+    "cameraConfigMaxStreams": 2,
+    "cameraConfigMaxWidth": 1280,
+    "cameraConfigMaxHeight": 720,
+    "cameraConfigMaxFPS": 10,
+    "cameraConfigMaxBitrate": 300,
+    "cameraConfigVideoCodec": "libx264",
+    "cameraConfigAudioCodec": "libfdk_aac",
+    "cameraConfigAudio": false,
+    "cameraConfigPacketSize": 1316,
+    "cameraConfigVerticalFlip": false,
+    "cameraConfigHorizontalFlip": false,
+    "cameraConfigMapVideo": "0:0",
+    "cameraConfigMapAudio": "0:1",
+    "cameraConfigVideoFilter": "scale=1280:720",
+    "cameraConfigAdditionalCommandLine": "-tune zerolatency",
+    "cameraConfigDebug": false,
+    "cameraConfigSnapshotOutput": "disabled",
+    "cameraConfigInterfaceName": "",
+    "characteristicProperties": "{}",
+    "waitForSetupMsg": false,
+    "outputs": 2,
+    "x": 1980,
+    "y": 560,
+    "wires": [
+      [
+        
+      ],
+      [
+        
+      ]
+    ]
+  },
+  {
+    "id": "5a8ab029.3a7b5",
+    "type": "homekit-service",
+    "z": "ac9ba07d.adfa7",
+    "isParent": true,
+    "bridge": "ae25056d.9b8b68",
+    "parentService": "97b9cb42.b70ef8",
+    "name": "Cooper's Window",
+    "serviceName": "ContactSensor",
+    "topic": "",
+    "filter": false,
+    "manufacturer": "NRCHKB",
+    "model": "1.2.0",
+    "serialNo": "Default Serial Number",
+    "firmwareRev": "1.2.0",
+    "hardwareRev": "1.2.0",
+    "softwareRev": "1.2.0",
+    "cameraConfigVideoProcessor": "ffmpeg",
+    "cameraConfigSource": "",
+    "cameraConfigStillImageSource": "",
+    "cameraConfigMaxStreams": 2,
+    "cameraConfigMaxWidth": 1280,
+    "cameraConfigMaxHeight": 720,
+    "cameraConfigMaxFPS": 10,
+    "cameraConfigMaxBitrate": 300,
+    "cameraConfigVideoCodec": "libx264",
+    "cameraConfigAudioCodec": "libfdk_aac",
+    "cameraConfigAudio": false,
+    "cameraConfigPacketSize": 1316,
+    "cameraConfigVerticalFlip": false,
+    "cameraConfigHorizontalFlip": false,
+    "cameraConfigMapVideo": "0:0",
+    "cameraConfigMapAudio": "0:1",
+    "cameraConfigVideoFilter": "scale=1280:720",
+    "cameraConfigAdditionalCommandLine": "-tune zerolatency",
+    "cameraConfigDebug": false,
+    "cameraConfigSnapshotOutput": "disabled",
+    "cameraConfigInterfaceName": "",
+    "characteristicProperties": "{}",
+    "waitForSetupMsg": false,
+    "outputs": 2,
+    "x": 1990,
+    "y": 620,
+    "wires": [
+      [
+        
+      ],
+      [
+        
+      ]
+    ]
+  },
+  {
+    "id": "ebbad7b6.135628",
+    "type": "homekit-service",
+    "z": "ac9ba07d.adfa7",
+    "isParent": true,
+    "bridge": "ae25056d.9b8b68",
+    "parentService": "97b9cb42.b70ef8",
+    "name": "Hannah's Window 1",
+    "serviceName": "ContactSensor",
+    "topic": "",
+    "filter": false,
+    "manufacturer": "NRCHKB",
+    "model": "1.2.0",
+    "serialNo": "Default Serial Number",
+    "firmwareRev": "1.2.0",
+    "hardwareRev": "1.2.0",
+    "softwareRev": "1.2.0",
+    "cameraConfigVideoProcessor": "ffmpeg",
+    "cameraConfigSource": "",
+    "cameraConfigStillImageSource": "",
+    "cameraConfigMaxStreams": 2,
+    "cameraConfigMaxWidth": 1280,
+    "cameraConfigMaxHeight": 720,
+    "cameraConfigMaxFPS": 10,
+    "cameraConfigMaxBitrate": 300,
+    "cameraConfigVideoCodec": "libx264",
+    "cameraConfigAudioCodec": "libfdk_aac",
+    "cameraConfigAudio": false,
+    "cameraConfigPacketSize": 1316,
+    "cameraConfigVerticalFlip": false,
+    "cameraConfigHorizontalFlip": false,
+    "cameraConfigMapVideo": "0:0",
+    "cameraConfigMapAudio": "0:1",
+    "cameraConfigVideoFilter": "scale=1280:720",
+    "cameraConfigAdditionalCommandLine": "-tune zerolatency",
+    "cameraConfigDebug": false,
+    "cameraConfigSnapshotOutput": "disabled",
+    "cameraConfigInterfaceName": "",
+    "characteristicProperties": "{}",
+    "waitForSetupMsg": false,
+    "outputs": 2,
+    "x": 2000,
+    "y": 680,
+    "wires": [
+      [
+        
+      ],
+      [
+        
+      ]
+    ]
+  },
+  {
+    "id": "a6464e4c.c0166",
+    "type": "homekit-service",
+    "z": "ac9ba07d.adfa7",
+    "isParent": true,
+    "bridge": "ae25056d.9b8b68",
+    "parentService": "97b9cb42.b70ef8",
+    "name": "Hannah's Window 2",
+    "serviceName": "ContactSensor",
+    "topic": "",
+    "filter": false,
+    "manufacturer": "NRCHKB",
+    "model": "1.2.0",
+    "serialNo": "Default Serial Number",
+    "firmwareRev": "1.2.0",
+    "hardwareRev": "1.2.0",
+    "softwareRev": "1.2.0",
+    "cameraConfigVideoProcessor": "ffmpeg",
+    "cameraConfigSource": "",
+    "cameraConfigStillImageSource": "",
+    "cameraConfigMaxStreams": 2,
+    "cameraConfigMaxWidth": 1280,
+    "cameraConfigMaxHeight": 720,
+    "cameraConfigMaxFPS": 10,
+    "cameraConfigMaxBitrate": 300,
+    "cameraConfigVideoCodec": "libx264",
+    "cameraConfigAudioCodec": "libfdk_aac",
+    "cameraConfigAudio": false,
+    "cameraConfigPacketSize": 1316,
+    "cameraConfigVerticalFlip": false,
+    "cameraConfigHorizontalFlip": false,
+    "cameraConfigMapVideo": "0:0",
+    "cameraConfigMapAudio": "0:1",
+    "cameraConfigVideoFilter": "scale=1280:720",
+    "cameraConfigAdditionalCommandLine": "-tune zerolatency",
+    "cameraConfigDebug": false,
+    "cameraConfigSnapshotOutput": "disabled",
+    "cameraConfigInterfaceName": "",
+    "characteristicProperties": "{}",
+    "waitForSetupMsg": false,
+    "outputs": 2,
+    "x": 2000,
+    "y": 740,
+    "wires": [
+      [
+        
+      ],
+      [
+        
+      ]
+    ]
+  },
+  {
+    "id": "384cdae2.97f106",
+    "type": "homekit-service",
+    "z": "ac9ba07d.adfa7",
+    "isParent": true,
+    "bridge": "ae25056d.9b8b68",
+    "parentService": "97b9cb42.b70ef8",
+    "name": "Master Bath Window",
+    "serviceName": "ContactSensor",
+    "topic": "",
+    "filter": false,
+    "manufacturer": "NRCHKB",
+    "model": "1.2.0",
+    "serialNo": "Default Serial Number",
+    "firmwareRev": "1.2.0",
+    "hardwareRev": "1.2.0",
+    "softwareRev": "1.2.0",
+    "cameraConfigVideoProcessor": "ffmpeg",
+    "cameraConfigSource": "",
+    "cameraConfigStillImageSource": "",
+    "cameraConfigMaxStreams": 2,
+    "cameraConfigMaxWidth": 1280,
+    "cameraConfigMaxHeight": 720,
+    "cameraConfigMaxFPS": 10,
+    "cameraConfigMaxBitrate": 300,
+    "cameraConfigVideoCodec": "libx264",
+    "cameraConfigAudioCodec": "libfdk_aac",
+    "cameraConfigAudio": false,
+    "cameraConfigPacketSize": 1316,
+    "cameraConfigVerticalFlip": false,
+    "cameraConfigHorizontalFlip": false,
+    "cameraConfigMapVideo": "0:0",
+    "cameraConfigMapAudio": "0:1",
+    "cameraConfigVideoFilter": "scale=1280:720",
+    "cameraConfigAdditionalCommandLine": "-tune zerolatency",
+    "cameraConfigDebug": false,
+    "cameraConfigSnapshotOutput": "disabled",
+    "cameraConfigInterfaceName": "",
+    "characteristicProperties": "{}",
+    "waitForSetupMsg": false,
+    "outputs": 2,
+    "x": 2000,
+    "y": 800,
+    "wires": [
+      [
+        
+      ],
+      [
+        
+      ]
+    ]
+  },
+  {
+    "id": "cd82a050.0765f",
+    "type": "homekit-service",
+    "z": "ac9ba07d.adfa7",
+    "isParent": true,
+    "bridge": "ae25056d.9b8b68",
+    "parentService": "97b9cb42.b70ef8",
+    "name": "Master Bedroom Window",
+    "serviceName": "ContactSensor",
+    "topic": "",
+    "filter": false,
+    "manufacturer": "NRCHKB",
+    "model": "1.2.0",
+    "serialNo": "Default Serial Number",
+    "firmwareRev": "1.2.0",
+    "hardwareRev": "1.2.0",
+    "softwareRev": "1.2.0",
+    "cameraConfigVideoProcessor": "ffmpeg",
+    "cameraConfigSource": "",
+    "cameraConfigStillImageSource": "",
+    "cameraConfigMaxStreams": 2,
+    "cameraConfigMaxWidth": 1280,
+    "cameraConfigMaxHeight": 720,
+    "cameraConfigMaxFPS": 10,
+    "cameraConfigMaxBitrate": 300,
+    "cameraConfigVideoCodec": "libx264",
+    "cameraConfigAudioCodec": "libfdk_aac",
+    "cameraConfigAudio": false,
+    "cameraConfigPacketSize": 1316,
+    "cameraConfigVerticalFlip": false,
+    "cameraConfigHorizontalFlip": false,
+    "cameraConfigMapVideo": "0:0",
+    "cameraConfigMapAudio": "0:1",
+    "cameraConfigVideoFilter": "scale=1280:720",
+    "cameraConfigAdditionalCommandLine": "-tune zerolatency",
+    "cameraConfigDebug": false,
+    "cameraConfigSnapshotOutput": "disabled",
+    "cameraConfigInterfaceName": "",
+    "characteristicProperties": "{}",
+    "waitForSetupMsg": false,
+    "outputs": 2,
+    "x": 2010,
+    "y": 860,
+    "wires": [
+      [
+        
+      ],
+      [
+        
+      ]
+    ]
+  },
+  {
+    "id": "60f368e6.eeced8",
+    "type": "homekit-service",
+    "z": "ac9ba07d.adfa7",
+    "isParent": true,
+    "bridge": "ae25056d.9b8b68",
+    "parentService": "97b9cb42.b70ef8",
+    "name": "Living Room Window 1",
+    "serviceName": "ContactSensor",
+    "topic": "",
+    "filter": false,
+    "manufacturer": "NRCHKB",
+    "model": "1.2.0",
+    "serialNo": "Default Serial Number",
+    "firmwareRev": "1.2.0",
+    "hardwareRev": "1.2.0",
+    "softwareRev": "1.2.0",
+    "cameraConfigVideoProcessor": "ffmpeg",
+    "cameraConfigSource": "",
+    "cameraConfigStillImageSource": "",
+    "cameraConfigMaxStreams": 2,
+    "cameraConfigMaxWidth": 1280,
+    "cameraConfigMaxHeight": 720,
+    "cameraConfigMaxFPS": 10,
+    "cameraConfigMaxBitrate": 300,
+    "cameraConfigVideoCodec": "libx264",
+    "cameraConfigAudioCodec": "libfdk_aac",
+    "cameraConfigAudio": false,
+    "cameraConfigPacketSize": 1316,
+    "cameraConfigVerticalFlip": false,
+    "cameraConfigHorizontalFlip": false,
+    "cameraConfigMapVideo": "0:0",
+    "cameraConfigMapAudio": "0:1",
+    "cameraConfigVideoFilter": "scale=1280:720",
+    "cameraConfigAdditionalCommandLine": "-tune zerolatency",
+    "cameraConfigDebug": false,
+    "cameraConfigSnapshotOutput": "disabled",
+    "cameraConfigInterfaceName": "",
+    "characteristicProperties": "{}",
+    "waitForSetupMsg": false,
+    "outputs": 2,
+    "x": 2010,
+    "y": 920,
+    "wires": [
+      [
+        
+      ],
+      [
+        
+      ]
+    ]
+  },
+  {
+    "id": "3326051b.d2ffba",
+    "type": "homekit-service",
+    "z": "ac9ba07d.adfa7",
+    "isParent": true,
+    "bridge": "ae25056d.9b8b68",
+    "parentService": "97b9cb42.b70ef8",
+    "name": "Living Room Window 2",
+    "serviceName": "ContactSensor",
+    "topic": "",
+    "filter": false,
+    "manufacturer": "NRCHKB",
+    "model": "1.2.0",
+    "serialNo": "Default Serial Number",
+    "firmwareRev": "1.2.0",
+    "hardwareRev": "1.2.0",
+    "softwareRev": "1.2.0",
+    "cameraConfigVideoProcessor": "ffmpeg",
+    "cameraConfigSource": "",
+    "cameraConfigStillImageSource": "",
+    "cameraConfigMaxStreams": 2,
+    "cameraConfigMaxWidth": 1280,
+    "cameraConfigMaxHeight": 720,
+    "cameraConfigMaxFPS": 10,
+    "cameraConfigMaxBitrate": 300,
+    "cameraConfigVideoCodec": "libx264",
+    "cameraConfigAudioCodec": "libfdk_aac",
+    "cameraConfigAudio": false,
+    "cameraConfigPacketSize": 1316,
+    "cameraConfigVerticalFlip": false,
+    "cameraConfigHorizontalFlip": false,
+    "cameraConfigMapVideo": "0:0",
+    "cameraConfigMapAudio": "0:1",
+    "cameraConfigVideoFilter": "scale=1280:720",
+    "cameraConfigAdditionalCommandLine": "-tune zerolatency",
+    "cameraConfigDebug": false,
+    "cameraConfigSnapshotOutput": "disabled",
+    "cameraConfigInterfaceName": "",
+    "characteristicProperties": "{}",
+    "waitForSetupMsg": false,
+    "outputs": 2,
+    "x": 2010,
+    "y": 980,
+    "wires": [
+      [
+        
+      ],
+      [
+        
+      ]
+    ]
+  },
+  {
+    "id": "6cbfa7ea.9aa69",
+    "type": "homekit-service",
+    "z": "ac9ba07d.adfa7",
+    "isParent": true,
+    "bridge": "ae25056d.9b8b68",
+    "parentService": "97b9cb42.b70ef8",
+    "name": "Smoke Detector 1",
+    "serviceName": "SmokeSensor",
+    "topic": "",
+    "filter": false,
+    "manufacturer": "NRCHKB",
+    "model": "1.2.0",
+    "serialNo": "Default Serial Number",
+    "firmwareRev": "1.2.0",
+    "hardwareRev": "1.2.0",
+    "softwareRev": "1.2.0",
+    "cameraConfigVideoProcessor": "ffmpeg",
+    "cameraConfigSource": "",
+    "cameraConfigStillImageSource": "",
+    "cameraConfigMaxStreams": 2,
+    "cameraConfigMaxWidth": 1280,
+    "cameraConfigMaxHeight": 720,
+    "cameraConfigMaxFPS": 10,
+    "cameraConfigMaxBitrate": 300,
+    "cameraConfigVideoCodec": "libx264",
+    "cameraConfigAudioCodec": "libfdk_aac",
+    "cameraConfigAudio": false,
+    "cameraConfigPacketSize": 1316,
+    "cameraConfigVerticalFlip": false,
+    "cameraConfigHorizontalFlip": false,
+    "cameraConfigMapVideo": "0:0",
+    "cameraConfigMapAudio": "0:1",
+    "cameraConfigVideoFilter": "scale=1280:720",
+    "cameraConfigAdditionalCommandLine": "-tune zerolatency",
+    "cameraConfigDebug": false,
+    "cameraConfigSnapshotOutput": "disabled",
+    "cameraConfigInterfaceName": "",
+    "characteristicProperties": "{}",
+    "waitForSetupMsg": false,
+    "outputs": 2,
+    "x": 2130,
+    "y": 1040,
+    "wires": [
+      [
+        
+      ],
+      [
+        
+      ]
+    ]
+  },
+  {
+    "id": "bfacf89d.f03c9",
+    "type": "homekit-service",
+    "z": "ac9ba07d.adfa7",
+    "isParent": true,
+    "bridge": "ae25056d.9b8b68",
+    "parentService": "97b9cb42.b70ef8",
+    "name": "Smoke Detector 2",
+    "serviceName": "SmokeSensor",
+    "topic": "",
+    "filter": false,
+    "manufacturer": "NRCHKB",
+    "model": "1.2.0",
+    "serialNo": "Default Serial Number",
+    "firmwareRev": "1.2.0",
+    "hardwareRev": "1.2.0",
+    "softwareRev": "1.2.0",
+    "cameraConfigVideoProcessor": "ffmpeg",
+    "cameraConfigSource": "",
+    "cameraConfigStillImageSource": "",
+    "cameraConfigMaxStreams": 2,
+    "cameraConfigMaxWidth": 1280,
+    "cameraConfigMaxHeight": 720,
+    "cameraConfigMaxFPS": 10,
+    "cameraConfigMaxBitrate": 300,
+    "cameraConfigVideoCodec": "libx264",
+    "cameraConfigAudioCodec": "libfdk_aac",
+    "cameraConfigAudio": false,
+    "cameraConfigPacketSize": 1316,
+    "cameraConfigVerticalFlip": false,
+    "cameraConfigHorizontalFlip": false,
+    "cameraConfigMapVideo": "0:0",
+    "cameraConfigMapAudio": "0:1",
+    "cameraConfigVideoFilter": "scale=1280:720",
+    "cameraConfigAdditionalCommandLine": "-tune zerolatency",
+    "cameraConfigDebug": false,
+    "cameraConfigSnapshotOutput": "disabled",
+    "cameraConfigInterfaceName": "",
+    "characteristicProperties": "{}",
+    "waitForSetupMsg": false,
+    "outputs": 2,
+    "x": 2130,
+    "y": 1100,
+    "wires": [
+      [
+        
+      ],
+      [
+        
+      ]
+    ]
+  },
+  {
+    "id": "ab0a5877.9c44f8",
+    "type": "homekit-service",
+    "z": "ac9ba07d.adfa7",
+    "isParent": true,
+    "bridge": "ae25056d.9b8b68",
+    "parentService": "97b9cb42.b70ef8",
+    "name": "Smoke Detector 3",
+    "serviceName": "SmokeSensor",
+    "topic": "",
+    "filter": false,
+    "manufacturer": "NRCHKB",
+    "model": "1.2.0",
+    "serialNo": "Default Serial Number",
+    "firmwareRev": "1.2.0",
+    "hardwareRev": "1.2.0",
+    "softwareRev": "1.2.0",
+    "cameraConfigVideoProcessor": "ffmpeg",
+    "cameraConfigSource": "",
+    "cameraConfigStillImageSource": "",
+    "cameraConfigMaxStreams": 2,
+    "cameraConfigMaxWidth": 1280,
+    "cameraConfigMaxHeight": 720,
+    "cameraConfigMaxFPS": 10,
+    "cameraConfigMaxBitrate": 300,
+    "cameraConfigVideoCodec": "libx264",
+    "cameraConfigAudioCodec": "libfdk_aac",
+    "cameraConfigAudio": false,
+    "cameraConfigPacketSize": 1316,
+    "cameraConfigVerticalFlip": false,
+    "cameraConfigHorizontalFlip": false,
+    "cameraConfigMapVideo": "0:0",
+    "cameraConfigMapAudio": "0:1",
+    "cameraConfigVideoFilter": "scale=1280:720",
+    "cameraConfigAdditionalCommandLine": "-tune zerolatency",
+    "cameraConfigDebug": false,
+    "cameraConfigSnapshotOutput": "disabled",
+    "cameraConfigInterfaceName": "",
+    "characteristicProperties": "{}",
+    "waitForSetupMsg": false,
+    "outputs": 2,
+    "x": 2130,
+    "y": 1160,
+    "wires": [
+      [
+        
+      ],
+      [
+        
+      ]
+    ]
+  },
+  {
+    "id": "47c04459.5471fc",
+    "type": "debug",
+    "z": "ac9ba07d.adfa7",
+    "name": "Sensor Messages",
+    "active": false,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 1990,
+    "y": 1220,
+    "wires": [
+      
+    ]
+  },
+  {
+    "id": "52dee844.3ec878",
+    "type": "function",
+    "z": "ac9ba07d.adfa7",
+    "name": "",
+    "func": "zstatus = msg.payload[\"SecuritySystemTargetState\"];\ntmsg = msg.payload;\n\n\nswitch (zstatus) {\n    case 0:\n        return [tmsg,null,null]\n    case 1:\n        return [null,tmsg,null]\n    case 3:\n        return [null,null,tmsg]\n    case 2:\n        return [tmsg,null,null]\n}",
+    "outputs": 3,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "x": 120,
+    "y": 800,
+    "wires": [
+      [
+        "491765e8.9fbdec"
+      ],
+      [
+        "c717fc2.c143a"
+      ],
+      [
+        "717821b1.a2009"
+      ]
+    ]
+  },
+  {
+    "id": "491765e8.9fbdec",
+    "type": "trigger",
+    "z": "ac9ba07d.adfa7",
+    "name": "Inject Arm Stay Message to Qolsys",
+    "op1": "{\"partition_id\":0,\"action\":\"ARMING\",\"arming_type\":\"ARM_STAY\",\"version\":0,\"nonce\":\"\",\"usercode\":\"CODE\",\"source\":\"C4\",\"version_key\":1,\"source_key\":\"C4\",\"token\":\"TOKEN\"}",
+    "op1type": "json",
+    "op2type": "json",
+    "duration": "1",
+    "extend": false,
+    "overrideDelay": false,
+    "units": "ms",
+    "reset": "",
+    "bytopic": "all",
+    "topic": "topic",
+    "outputs": 2,
+    "x": 400,
+    "y": 720,
+    "wires": [
+      [
+        "3bdadaed.125256"
+      ],
+      [
+        
+      ]
+    ]
+  },
+  {
+    "id": "c717fc2.c143a",
+    "type": "trigger",
+    "z": "ac9ba07d.adfa7",
+    "name": "Inject Arm Away Message to Qolsys",
+    "op1": "{\"partition_id\":0,\"action\":\"ARMING\",\"arming_type\":\"ARM_AWAY\",\"version\":0,\"nonce\":\"HomeBridge\",\"usercode\":\"CODE\",\"source\":\"C4\",\"version_key\":1,\"source_key\":\"C4\",\"token\":\"TOKEN\",\"bypass\":false,\"delay\":0}",
+    "op2": "{\"partition_id\":0,\"action\":\"ARMING\",\"arming_type\":\"ARM_AWAY\",\"version\":0,\"nonce\":\"HomeBridge\",\"usercode\":\"CODE\",\"source\":\"C4\",\"version_key\":1,\"source_key\":\"C4\",\"token\":\"TOKEN\",\"bypass\":false,\"delay\":0}",
+    "op1type": "json",
+    "op2type": "json",
+    "duration": "1",
+    "extend": false,
+    "overrideDelay": false,
+    "units": "ms",
+    "reset": "",
+    "bytopic": "all",
+    "topic": "topic",
+    "outputs": 2,
+    "x": 410,
+    "y": 760,
+    "wires": [
+      [
+        "3bdadaed.125256"
+      ],
+      [
+        
+      ]
+    ]
+  },
+  {
+    "id": "717821b1.a2009",
+    "type": "trigger",
+    "z": "ac9ba07d.adfa7",
+    "name": "Inject Disarm Message to Qolsys",
+    "op1": "{\"partition_id\":0,\"action\":\"ARMING\",\"arming_type\":\"DISARM\",\"version\":0,\"nonce\":\"\",\"usercode\":\"CODE\",\"source\":\"C4\",\"version_key\":1,\"source_key\":\"C4\",\"token\":\"TOKEN\"}",
+    "op1type": "json",
+    "op2type": "json",
+    "duration": "1",
+    "extend": false,
+    "overrideDelay": false,
+    "units": "ms",
+    "reset": "",
+    "bytopic": "all",
+    "topic": "topic",
+    "outputs": 2,
+    "x": 400,
+    "y": 800,
+    "wires": [
+      [
+        "3bdadaed.125256"
+      ],
+      [
+        
+      ]
+    ]
+  },
+  {
+    "id": "1a6f347d.68e4ac",
+    "type": "rbe",
+    "z": "ac9ba07d.adfa7",
+    "name": "",
+    "func": "rbe",
+    "gap": "",
+    "start": "",
+    "inout": "out",
+    "property": "payload",
+    "x": 890,
+    "y": 960,
+    "wires": [
+      [
+        "97b9cb42.b70ef8"
+      ]
+    ]
+  },
+  {
+    "id": "3bdadaed.125256",
+    "type": "change",
+    "z": "ac9ba07d.adfa7",
+    "name": "",
+    "rules": [
+      {
+        "t": "delete",
+        "p": "SecuritySystemCurrentState",
+        "pt": "msg"
+      },
+      {
+        "t": "delete",
+        "p": "SecuritySystemAlarmType",
+        "pt": "msg"
+      },
+      {
+        "t": "delete",
+        "p": "SecuritySystemTargetState",
+        "pt": "msg"
+      }
+    ],
+    "action": "",
+    "property": "",
+    "from": "",
+    "to": "",
+    "reg": false,
+    "x": 720,
+    "y": 740,
+    "wires": [
+      [
+        "cb370501.d8bad8",
+        "53123dd.4aa7444"
+      ]
+    ]
+  },
+  {
+    "id": "98af9b08.bdcb88",
+    "type": "function",
+    "z": "ac9ba07d.adfa7",
+    "name": "Set security status",
+    "func": "tmsg=msg.payload;\nstatus=msg.payload.partition_list[0].status\nswitch (status){\n        case \"DISARM\":\n            return [tmsg,null,null]\n        case \"ARM_STAY\":\n            return [null,tmsg,null]\n        case \"ARM_AWAY\":\n            return [null,null,tmsg]\n    }\n",
+    "outputs": 3,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "x": 1010,
+    "y": 700,
+    "wires": [
+      [
+        "d3d43e4a.f80ba"
+      ],
+      [
+        "4b449d99.f6aab4"
+      ],
+      [
+        "8fa0aa5c.0666d8"
+      ]
+    ]
+  },
+  {
+    "id": "7cceedd0.b1a09c",
+    "type": "inject",
+    "z": "ac9ba07d.adfa7",
+    "d": true,
+    "name": "",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "30",
+    "crontab": "",
+    "once": true,
+    "onceDelay": "30",
+    "topic": "",
+    "payload": "Keep-alive",
+    "payloadType": "str",
+    "x": 130,
+    "y": 480,
+    "wires": [
+      [
+        "cb370501.d8bad8"
+      ]
+    ]
+  },
+  {
+    "id": "461d21a7.37915",
+    "type": "link out",
+    "z": "ac9ba07d.adfa7",
+    "name": "Message out to Flows",
+    "links": [
+      "12a8e9cd.3a7c9e",
+      "4c350264.3d2774"
+    ],
+    "x": 635,
+    "y": 280,
+    "wires": [
+      
+    ]
+  },
+  {
+    "id": "7985536c.2e6f7c",
+    "type": "function",
+    "z": "ac9ba07d.adfa7",
+    "name": "",
+    "func": "zid = 0;\nzstatus = msg.zone.status;\n//entity_id = \"\";\ntmsg = msg.payload;\nif (zstatus==\"Closed\"){\n    tmsg.payload = {\"SmokeDetected\":0}\n    zid = 0\n}\nif (zstatus==\"Open\"){\n    tmsg.payload = {\"SmokeDetected\":1}\n    zid = 1\n}\n\n\nswitch (zid) {\n    case 0:\n        return [tmsg,null]\n    case 1:\n        return [null,tmsg]\n}\n",
+    "outputs": 2,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "x": 1960,
+    "y": 1040,
+    "wires": [
+      [
+        "6cbfa7ea.9aa69"
+      ],
+      [
+        "6cbfa7ea.9aa69"
+      ]
+    ]
+  },
+  {
+    "id": "fd8242f2.85ee3",
+    "type": "function",
+    "z": "ac9ba07d.adfa7",
+    "name": "",
+    "func": "zid = 0;\nzstatus = msg.zone.status;\n//entity_id = \"\";\ntmsg = msg.payload;\nif (zstatus==\"Closed\"){\n    tmsg.payload = {\"SmokeDetected\":0}\n    zid = 0\n}\nif (zstatus==\"Open\"){\n    tmsg.payload = {\"SmokeDetected\":1}\n    zid = 1\n}\n\n\nswitch (zid) {\n    case 0:\n        return [tmsg,null]\n    case 1:\n        return [null,tmsg]\n}\n",
+    "outputs": 2,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "x": 1960,
+    "y": 1100,
+    "wires": [
+      [
+        "bfacf89d.f03c9"
+      ],
+      [
+        "bfacf89d.f03c9"
+      ]
+    ]
+  },
+  {
+    "id": "2bfe3ffd.aa23a",
+    "type": "function",
+    "z": "ac9ba07d.adfa7",
+    "name": "",
+    "func": "zid = 0;\nzstatus = msg.zone.status;\n//entity_id = \"\";\ntmsg = msg.payload;\nif (zstatus==\"Closed\"){\n    tmsg.payload = {\"SmokeDetected\":0}\n    zid = 0\n}\nif (zstatus==\"Open\"){\n    tmsg.payload = {\"SmokeDetected\":1}\n    zid = 1\n}\n\n\nswitch (zid) {\n    case 0:\n        return [tmsg,null]\n    case 1:\n        return [null,tmsg]\n}\n",
+    "outputs": 2,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "x": 1960,
+    "y": 1160,
+    "wires": [
+      [
+        "ab0a5877.9c44f8"
+      ],
+      [
+        "ab0a5877.9c44f8"
+      ]
+    ]
+  },
+  {
+    "id": "53123dd.4aa7444",
+    "type": "debug",
+    "z": "ac9ba07d.adfa7",
+    "name": "Messages to OpenSSL",
+    "active": false,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 750,
+    "y": 800,
+    "wires": [
+      
+    ]
+  },
+  {
+    "id": "97788d23.d0ba2",
+    "type": "inject",
+    "z": "ac9ba07d.adfa7",
+    "name": "",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "{\"foo\":\"bar\"}",
+    "payloadType": "json",
+    "x": 800,
+    "y": 1100,
+    "wires": [
+      [
+        "97b9cb42.b70ef8"
+      ]
+    ]
+  },
+  {
+    "id": "ae25056d.9b8b68",
+    "type": "homekit-bridge",
+    "bridgeName": "HomeBridge",
+    "pinCode": "031-45-154",
+    "port": "",
+    "allowInsecureRequest": true,
+    "manufacturer": "NRCHKB",
+    "model": "1.2.0",
+    "serialNo": "Default Serial Number",
+    "firmwareRev": "1.2.0",
+    "hardwareRev": "1.2.0",
+    "softwareRev": "1.2.0",
+    "customMdnsConfig": false,
+    "mdnsMulticast": true,
+    "mdnsInterface": "",
+    "mdnsPort": "",
+    "mdnsIp": "",
+    "mdnsTtl": "",
+    "mdnsLoopback": true,
+    "mdnsReuseAddr": true,
+    "allowMessagePassthrough": true
+  },
+  {
+    "id": "2ac90055.7f83e8",
+    "type": "AnamicoAlarmPanel",
+    "name": "Qolsys Alarm"
+  }
+]
